@@ -71,7 +71,16 @@ No app:
 - **Segundo aparelho:** na tela de boas-vindas, em **"Já joga em outro aparelho?"**, digite o código e toque em **Continuar**. Ela já entra com codinome, agente e progresso, sem refazer o tutorial. (Se já tiver passado da tela inicial: **Perfil → Sincronização → Usar código**.)
 - A partir daí os dois sincronizam sozinhos: depois de cada partida e sempre que o app é aberto.
 
-Sobre segurança: a chave anon pode ficar pública. A tabela não pode ser lida nem listada diretamente; só dá para ler ou gravar o progresso de quem tem o código. Trate o código como uma senha simples e não o publique.
+### Segurança
+
+- **Chave anon (pública):** é a única que vai no app, e foi feita para ficar pública. A chave **service_role / secret** nunca vai para o código nem para o repositório.
+- **Tabela trancada:** RLS ligado e forçado, nenhuma policy e nenhuma permissão para `anon`/`authenticated`. Ninguém lê, lista, grava ou apaga a tabela diretamente.
+- **Só duas portas:** `sync_get` e `sync_put`. Elas só leem ou gravam o progresso de um código exato, que tem 8 caracteres (cerca de 850 bilhões de combinações).
+- **Limites contra abuso:** no máximo 10 códigos no banco, cada progresso com até 300 KB e só no formato de objeto JSON.
+- **No app:** todo progresso que chega da nuvem ou de um backup é reconstruído campo a campo, com tipos e tamanhos conferidos, antes de aparecer na tela. Texto nunca vira HTML.
+- **Content-Security-Policy:** a página só carrega scripts próprios e só conversa com este projeto Supabase e com as fontes do Google.
+- O Security Advisor do Supabase mostra 2 avisos de "SECURITY DEFINER callable without signing in". Eles são esperados: é a sincronização por código, sem login.
+- Trate o código de sincronização como uma senha simples e não o publique.
 
 ## 4. Instalar nos aparelhos dela
 

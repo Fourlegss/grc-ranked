@@ -16,7 +16,7 @@ function fresh(){return {v:1,updated:0,name:"",agent:null,rr:0,credits:800,inv:{
   done:{},spikes:{},wrong:{},cards:{},days:{},streak:{count:0,last:null},daily:{},sa:{},proj:{},notes:{},sims:{},
   stats:{answered:0,correct:0,aces:0,clutches:0,headshots:0,wins:0},sfx:true,tut:{match:false,lobby:false,tips:{}}};}
 let S=fresh();
-function loadState(o){const f=fresh();const r=Object.assign(f,o||{});r.inv=Object.assign(fresh().inv,r.inv);r.stats=Object.assign(fresh().stats,r.stats);
+function loadState(o){if(typeof cleanState==="function")o=cleanState(o);const f=fresh();const r=Object.assign(f,o||{});r.inv=Object.assign(fresh().inv,r.inv);r.stats=Object.assign(fresh().stats,r.stats);
   r.tut=Object.assign(fresh().tut,r.tut);r.tut.tips=Object.assign({},r.tut.tips);return r;}
 try{const raw=localStorage.getItem(KEY);if(raw)S=loadState(JSON.parse(raw));}catch(e){}
 function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
