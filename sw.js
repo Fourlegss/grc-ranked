@@ -1,5 +1,5 @@
 /* Service worker: deixa o app funcionar offline. Com internet, sempre busca a versão mais nova. */
-const VERSION = "grc-ranked-v3";
+const VERSION = "grc-ranked-v4";
 const SHELL = ["./","index.html","styles.css","app.js","content.js","sync.js","tutorial.js","config.js","manifest.webmanifest",
   "icons/icon-192.png","icons/icon-512.png","icons/apple-touch-icon.png"];
 

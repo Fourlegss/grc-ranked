@@ -42,7 +42,8 @@ const Sync={code:null,status:"unconfigured",err:"",last:0,_t:null,_busy:false,cf
   newCode(){const a=new Uint32Array(8);crypto.getRandomValues(a);let s="";for(const n of a)s+=CODE_ABC[n%CODE_ABC.length];return s;},
   async rpc(fn,body){
     const res=await fetch(this.cfg.url+"/rest/v1/rpc/"+fn,{method:"POST",
-      headers:{"apikey":this.cfg.key,"Authorization":"Bearer "+this.cfg.key,"Content-Type":"application/json"},body:JSON.stringify(body)});
+      headers:Object.assign({"apikey":this.cfg.key,"Content-Type":"application/json"},
+        /^eyJ/.test(this.cfg.key)?{"Authorization":"Bearer "+this.cfg.key}:{}),body:JSON.stringify(body)});
     const txt=await res.text();
     if(!res.ok){let m=txt;try{m=JSON.parse(txt).message||txt;}catch(e){}throw new Error(m||("Erro "+res.status));}
     return txt?JSON.parse(txt):null;
